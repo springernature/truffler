@@ -22,7 +22,8 @@
 		"node": ">=0.10"
 	},
 	"dependencies": {
-		"node.extend": "~1.1"
+		"node.extend": "~1.1",
+		"phantom": "~0.7"
 	},
 	"devDependencies": {
 		"jshint": "~2.7",
