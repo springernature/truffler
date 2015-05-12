@@ -139,7 +139,7 @@ describe('lib/truffler', function () {
 		});
 	});
 
-	it('should callback with an error if creating PhantomJS is not found in $PATH');
+	it('should callback with an error if PhantomJS is not found in the PATH environment variable');
 
 	describe('test function', function () {
 		var options, test;
