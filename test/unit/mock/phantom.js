@@ -9,6 +9,7 @@ var phantom = module.exports = {
 		exit: sinon.stub()
 	},
 	mockPage: {
+		addCookie: sinon.stub(),
 		open: sinon.stub(),
 		set: sinon.stub()
 	}

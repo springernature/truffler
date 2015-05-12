@@ -152,6 +152,14 @@ describe('lib/truffler', function () {
 					info: sinon.spy()
 				},
 				page: {
+					cookies: [
+						{
+							name: 'foo'
+						},
+						{
+							name: 'bar'
+						}
+					],
 					settings: {
 						foo: 'bar',
 						bar: 'baz'
@@ -213,7 +221,13 @@ describe('lib/truffler', function () {
 			});
 		});
 
-		it('should set the page\'s cookies');
+		it('should set the page\'s cookies', function (done) {
+			test('http://foo', function () {
+				assert.calledWith(phantom.mockPage.addCookie, options.page.cookies[0]);
+				assert.calledWith(phantom.mockPage.addCookie, options.page.cookies[1]);
+				done();
+			});
+		});
 
 		it('should open the test URL in the page', function (done) {
 			test('http://foo', function () {
