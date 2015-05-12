@@ -19,6 +19,13 @@ truffler({
 			}
 		);
 
+	},
+
+	// Log what's happening to the console
+	log: {
+		debug: console.log.bind(console),
+		error: console.error.bind(console),
+		info: console.log.bind(console)
 	}
 
 }, function (error, test, exit) {

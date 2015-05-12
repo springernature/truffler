@@ -34,6 +34,22 @@ describe('lib/truffler', function () {
 			defaults = truffler.defaults;
 		});
 
+		it('should have a `log` property', function () {
+			assert.isObject(defaults.log);
+		});
+
+		it('should have a `log.debug` method', function () {
+			assert.isFunction(defaults.log.debug);
+		});
+
+		it('should have a `log.error` method', function () {
+			assert.isFunction(defaults.log.error);
+		});
+
+		it('should have a `log.info` method', function () {
+			assert.isFunction(defaults.log.info);
+		});
+
 		it('should have a `page` property', function () {
 			assert.isObject(defaults.page);
 		});
@@ -111,6 +127,18 @@ describe('lib/truffler', function () {
 		});
 	});
 
+	it('should log the creation of a PhantomJS browser', function (done) {
+		var options = {
+			log: {
+				info: sinon.spy()
+			}
+		};
+		truffler(options, function () {
+			assert.calledWith(options.log.info, 'PhantomJS browser created');
+			done();
+		});
+	});
+
 	it('should callback with an error if creating PhantomJS is not found in $PATH');
 
 	describe('test function', function () {
@@ -118,6 +146,11 @@ describe('lib/truffler', function () {
 
 		beforeEach(function (done) {
 			options = {
+				log: {
+					debug: sinon.spy(),
+					error: sinon.spy(),
+					info: sinon.spy()
+				},
 				page: {
 					settings: {
 						foo: 'bar',
@@ -143,10 +176,24 @@ describe('lib/truffler', function () {
 			});
 		});
 
+		it('should log that the test has begun', function (done) {
+			test('http://foo', function () {
+				assert.calledWith(options.log.info, 'Testing page: "http://foo"');
+				done();
+			});
+		});
+
 		it('should create a PhantomJS page', function (done) {
 			test('http://foo', function () {
 				assert.calledOnce(phantom.mockBrowser.createPage);
 				assert.isFunction(phantom.mockBrowser.createPage.firstCall.args[0]);
+				done();
+			});
+		});
+
+		it('should log that the PhantomJS page has been created', function (done) {
+			test('http://foo', function () {
+				assert.calledWith(options.log.debug, 'PhantomJS page created for "http://foo"');
 				done();
 			});
 		});
@@ -177,6 +224,13 @@ describe('lib/truffler', function () {
 			});
 		});
 
+		it('should log that the PhantomJS page has been opened', function (done) {
+			test('http://foo', function () {
+				assert.calledWith(options.log.debug, 'PhantomJS page for "http://foo" opened');
+				done();
+			});
+		});
+
 		it('should add a scheme to the test URL if one is not present', function (done) {
 			test('foo', function () {
 				assert.calledOnce(phantom.mockPage.open);
@@ -191,6 +245,14 @@ describe('lib/truffler', function () {
 			test('http://foo', function (error) {
 				assert.isObject(error);
 				assert.strictEqual(error.message, 'Page "http://foo" could not be loaded');
+				done();
+			});
+		});
+
+		it('should log that the PhantomJS page open has failed if it does', function (done) {
+			phantom.mockPage.open.yieldsAsync('fail');
+			test('http://foo', function () {
+				assert.calledWith(options.log.error, 'PhantomJS failed to open "http://foo"');
 				done();
 			});
 		});
@@ -212,11 +274,27 @@ describe('lib/truffler', function () {
 			});
 		});
 
+		it('should log that the test function has been run', function (done) {
+			test('http://foo', function () {
+				assert.calledWith(options.log.debug, 'Test function ran for "http://foo"');
+				done();
+			});
+		});
+
 		it('should callback with an error if the test function errors', function (done) {
 			var testError = new Error('...');
 			options.testFunction.yieldsAsync(testError);
 			test('http://foo', function (error) {
 				assert.strictEqual(error, testError);
+				done();
+			});
+		});
+
+		it('should log that the test function has failed if it does', function (done) {
+			var testError = new Error('...');
+			options.testFunction.yieldsAsync(testError);
+			test('http://foo', function () {
+				assert.calledWith(options.log.error, 'Test function errored for "http://foo"');
 				done();
 			});
 		});
