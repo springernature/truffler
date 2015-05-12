@@ -1,37 +1,37 @@
 {
-    "name": "truffler",
-    "version": "0.2.0",
+	"name": "truffler",
+	"version": "0.2.0",
 
-    "description": "Run tests against web pages or HTML snippets",
-    "keywords": [ "dom", "html", "test" ],
-    "author": "Rowan Manning (http://rowanmanning.com/)",
+	"description": "Run tests against web pages or HTML snippets with PhantomJS",
+	"keywords": [ "dom", "html", "phantomjs", "test" ],
 
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/rowanmanning/truffler.git"
-    },
-    "homepage": "https://github.com/rowanmanning/truffler",
-    "bugs": "https://github.com/rowanmanning/truffler/issues",
-    "license": "MIT",
+	"author": "Nature Publishing Group",
+	"contributors": [
+		"Rowan Manning (http://rowanmanning.com/)"
+	],
 
-    "engines": {
-        "node": ">=0.10"
-    },
-    "dependencies": {
-        "async": "~0.9",
-        "jsdom": "~0.10",
-        "underscore": "~1.6"
-    },
-    "devDependencies": {
-        "jshint": "~2.5",
-        "mocha": "~1.20",
-        "mockery": "~1.4",
-        "proclaim": "~2.0",
-        "sinon": "~1.10"
-    },
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/nature/truffler.git"
+	},
+	"homepage": "https://github.com/nature/truffler",
+	"bugs": "https://github.com/nature/truffler/issues",
+	"license": "MIT",
 
-    "main": "./lib/truffler.js",
-    "scripts": {
-        "test": "make test"
-    }
+	"engines": {
+		"node": ">=0.10"
+	},
+	"dependencies": {},
+	"devDependencies": {
+		"jshint": "~2.7",
+		"mocha": "~2.2",
+		"mockery": "~1.4",
+		"proclaim": "~3.2",
+		"sinon": "~1.14"
+	},
+
+	"main": "./lib/truffler.js",
+	"scripts": {
+		"test": "make ci"
+	}
 }

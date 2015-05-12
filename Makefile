@@ -17,9 +17,17 @@ lint:
 	@echo "$(C_CYAN)> linting javascript$(C_RESET)"
 	@./node_modules/.bin/jshint . --exclude node_modules --config .jshintrc
 
-# Run tests
-test:
+# Run all tests
+test: test-unit test-integration
+
+# Run unit tests
+test-unit:
 	@echo "$(C_CYAN)> running unit tests$(C_RESET)"
-	@./node_modules/.bin/mocha ./test --reporter spec --colors --recursive
+	@./node_modules/.bin/mocha ./test/unit --reporter spec --colors --recursive
+
+# Run integration tests
+test-integration:
+	@echo "$(C_CYAN)> running integration tests$(C_RESET)"
+	@./node_modules/.bin/mocha ./test/integration --reporter spec --colors --recursive
 
 .PHONY: test
