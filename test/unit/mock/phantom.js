@@ -5,11 +5,11 @@ var sinon = require('sinon');
 var phantom = module.exports = {
 	create: sinon.stub(),
 	mockBrowser: {
+		addCookie: sinon.stub(),
 		createPage: sinon.stub(),
 		exit: sinon.stub()
 	},
 	mockPage: {
-		addCookie: sinon.stub(),
 		open: sinon.stub(),
 		set: sinon.stub()
 	}
