@@ -7,12 +7,15 @@ var mockery = require('mockery');
 var sinon = require('sinon');
 
 describe('lib/truffler', function () {
-	var extend, phantom, pkg, truffler;
+	var extend, hasbin, phantom, pkg, truffler;
 
 	beforeEach(function () {
 
 		extend = sinon.spy(require('node.extend'));
 		mockery.registerMock('node.extend', extend);
+
+		hasbin = require('../mock/hasbin');
+		mockery.registerMock('hasbin', hasbin);
 
 		phantom = require('../mock/phantom');
 		mockery.registerMock('phantom', phantom);
@@ -92,6 +95,13 @@ describe('lib/truffler', function () {
 
 	});
 
+	it('should not callback with an error', function (done) {
+		truffler({}, function (error) {
+			assert.isNull(error);
+			done();
+		});
+	});
+
 	it('should callback with a test function', function (done) {
 		truffler({}, function (error, test) {
 			assert.isFunction(test);
@@ -139,7 +149,21 @@ describe('lib/truffler', function () {
 		});
 	});
 
-	it('should callback with an error if PhantomJS is not found in the PATH environment variable');
+	it('should check for presence of PhantomJS binary', function (done) {
+		truffler({}, function () {
+			assert.calledOnce(hasbin.some);
+			assert.calledWith(hasbin.some, ['phantomjs', 'phantomjs.exe']);
+			done();
+		});
+	});
+
+	it('should callback with an error if PhantomJS is not found', function (done) {
+		hasbin.some.yieldsAsync(false);
+		truffler({}, function (error) {
+			assert.strictEqual(error.message, 'PhantomJS binary was not found in PATH');
+			done();
+		});
+	});
 
 	describe('test function', function () {
 		var options, test;
