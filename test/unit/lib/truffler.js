@@ -57,6 +57,10 @@ describe('lib/truffler', function () {
 			assert.isObject(defaults.page);
 		});
 
+		it('should have a `page.headers` property', function () {
+			assert.isObject(defaults.page.headers);
+		});
+
 		it('should have a `page.settings` property', function () {
 			assert.isObject(defaults.page.settings);
 		});
@@ -79,10 +83,6 @@ describe('lib/truffler', function () {
 
 		it('should have a `phantom` property', function () {
 			assert.isObject(defaults.phantom);
-		});
-
-		it('should have a `phantom.cookies` property', function () {
-			assert.isArray(defaults.phantom.cookies);
 		});
 
 		it('should have a `phantom.port` property', function () {
@@ -165,26 +165,6 @@ describe('lib/truffler', function () {
 		});
 	});
 
-	it('should set the PhantomJS browser\'s cookies', function (done) {
-		var options = {
-			phantom: {
-				cookies: [
-					{
-						name: 'foo'
-					},
-					{
-						name: 'bar'
-					}
-				]
-			}
-		};
-		truffler(options, function () {
-			assert.calledWith(phantom.mockBrowser.addCookie, options.phantom.cookies[0]);
-			assert.calledWith(phantom.mockBrowser.addCookie, options.phantom.cookies[1]);
-			done();
-		});
-	});
-
 	describe('test function', function () {
 		var options, test;
 
@@ -196,6 +176,9 @@ describe('lib/truffler', function () {
 					info: sinon.spy()
 				},
 				page: {
+					headers: {
+						foo: 'bar'
+					},
 					settings: {
 						foo: 'bar',
 						bar: 'baz'
@@ -253,6 +236,13 @@ describe('lib/truffler', function () {
 		it('should set the page\'s viewport', function (done) {
 			test('http://foo', function () {
 				assert.calledWith(phantom.mockPage.set, 'viewportSize', options.page.viewport);
+				done();
+			});
+		});
+
+		it('should set the page\'s headers', function (done) {
+			test('http://foo', function () {
+				assert.calledWith(phantom.mockPage.set, 'customHeaders', options.page.headers);
 				done();
 			});
 		});
