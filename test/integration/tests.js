@@ -67,18 +67,6 @@ describe('Truffler Example Application', function () {
 
 	});
 
-	describe('with a method', function () {
-
-		it('send the expected headers to the requested page', function (done) {
-			test(this.websiteAddress + '/header-dump', function (error, result) {
-				assert.isNull(error);
-				assert.strictEqual(result.body.trim(), 'Cookie: foo=bar\nFoo: bar');
-				done();
-			});
-		});
-
-	});
-
 	describe('with headers', function () {
 
 		it('send the expected headers to the requested page', function (done) {
