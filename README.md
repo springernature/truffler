@@ -2,7 +2,7 @@
 Truffler
 ========
 
-Run tests against web pages or HTML snippets with [PhantomJS][phantom].
+Access web pages programmatically with [PhantomJS][phantom], for running tests or scraping information.
 
 [![NPM version][shield-npm]][info-npm]
 [![Node.js version support][shield-node]][info-node]
@@ -86,7 +86,7 @@ truffler(options, function (error, test, exit) {
 
 The results that get passed into your test callback come from the test function you define in options:
 
-```
+```js
 truffler({
     testFunction: function (browser, page, done) {
 

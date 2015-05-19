@@ -2,7 +2,7 @@
 	"name": "truffler",
 	"version": "0.2.0",
 
-	"description": "Run tests against web pages or HTML snippets with PhantomJS",
+	"description": "Access web pages programmatically with PhantomJS, for running tests or scraping information",
 	"keywords": [ "dom", "html", "phantomjs", "test" ],
 
 	"author": "Nature Publishing Group",
