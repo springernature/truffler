@@ -56,7 +56,51 @@ Require in Truffler:
 var truffler = require('truffler');
 ```
 
-TODO
+Create a test function by initialising Truffler with [some options](#options):
+
+```js
+truffler(options, function (error, test, exit) { /* ... */ });
+```
+
+Within your callback, you can use the `test` and `exit` functions to run tests against web pages or exit PhantomJS:
+
+```js
+truffler(options, function (error, test, exit) {
+
+    // Run a test on nature.com
+    test('http://www.nature.com/', function (error, results) {
+        // ...
+    });
+
+});
+```
+
+```js
+truffler(options, function (error, test, exit) {
+
+    // Exit PhantomJS
+    exit();
+
+});
+```
+
+The results that get passed into your test callback come from the test function you define in options:
+
+```
+truffler({
+    testFunction: function (browser, page, done) {
+
+        // ... do something with PhantomJS
+
+        // To indicate that an error occurred, call back with an error:
+        done(new Error('Something went wrong!'));
+
+        // To indicate success and pass results on, call back with the results:
+        done(null, 'some information to pass along');
+
+    }
+});
+```
 
 
 Options
