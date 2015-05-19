@@ -158,7 +158,7 @@ Defaults to:
 
 ```js
 {
-    userAgent: 'truffler/\<version>'
+    userAgent: 'truffler/<version>'
 }
 ```
 
