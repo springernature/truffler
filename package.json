@@ -27,6 +27,7 @@
 		"phantom": "~0.7"
 	},
 	"devDependencies": {
+		"async": "~0.9",
 		"jshint": "~2.7",
 		"mocha": "~2.2",
 		"mockery": "~1.4",

@@ -231,6 +231,14 @@ Run Truffler on a URL and output the page title:
 node example/basic
 ```
 
+### Multiple Example
+
+Use [async][async] to run Truffler on multiple URLs in series, and output the page titles:
+
+```
+node example/multiple
+```
+
 
 Contributing
 ------------
@@ -252,6 +260,7 @@ Copyright &copy; 2015, Nature Publishing Group
 
 
 
+[async]: https://github.com/caolan/async
 [npm]: https://npmjs.org/
 [phantom]: http://phantomjs.org/
 [phantom-browser]: http://phantomjs.org/api/phantom/
