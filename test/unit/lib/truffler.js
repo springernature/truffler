@@ -18,7 +18,7 @@ describe('lib/truffler', function () {
 		mockery.registerMock('hasbin', hasbin);
 
 		phantom = require('../mock/phantom');
-		mockery.registerMock('phantom', phantom);
+		mockery.registerMock('node-phantom-simple', phantom);
 
 		pkg = require('../../../package.json');
 
