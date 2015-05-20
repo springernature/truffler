@@ -25,7 +25,7 @@ describe('Truffler Example Application', function() {
 							body: document.body.textContent
 						};
 					},
-					function(result) {
+					function(error, result) {
 						completeTest(null, result);
 					}
 				);
