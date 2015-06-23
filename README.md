@@ -6,7 +6,6 @@ Access web pages programmatically with [PhantomJS][phantom], for running tests o
 
 [![NPM version][shield-npm]][info-npm]
 [![Node.js version support][shield-node]][info-node]
-[![io.js version support][shield-iojs]][info-iojs]
 [![Build status][shield-build]][info-build]
 [![Dependencies][shield-dependencies]][info-dependencies]
 [![MIT licensed][shield-license]][info-license]
@@ -270,13 +269,11 @@ Copyright &copy; 2015, Nature Publishing Group
 [phantom-page-settings]: http://phantomjs.org/api/webpage/property/settings.html
 
 [info-dependencies]: https://gemnasium.com/nature/truffler
-[info-iojs]: package.json
 [info-license]: LICENSE
 [info-node]: package.json
 [info-npm]: https://www.npmjs.com/package/truffler
 [info-build]: https://travis-ci.org/nature/truffler
 [shield-dependencies]: https://img.shields.io/gemnasium/nature/truffler.svg
-[shield-iojs]: https://img.shields.io/badge/io.js%20support-latest-brightgreen.svg
 [shield-license]: https://img.shields.io/badge/license-MIT-blue.svg
 [shield-node]: https://img.shields.io/node/v/truffler.svg?label=node.js+support
 [shield-npm]: https://img.shields.io/npm/v/truffler.svg
