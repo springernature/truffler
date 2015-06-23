@@ -22,17 +22,17 @@
 		"node": ">=0.10"
 	},
 	"dependencies": {
-		"hasbin": "~0.2",
+		"hasbin": "~1.0",
 		"node.extend": "~1.1",
 		"phantom": "~0.7"
 	},
 	"devDependencies": {
-		"async": "~0.9",
-		"jshint": "~2.7",
-		"mocha": "~2.2",
+		"async": "^1",
+		"jshint": "^2",
+		"mocha": "^2",
 		"mockery": "~1.4",
-		"proclaim": "~3.2",
-		"sinon": "~1.14"
+		"proclaim": "^3",
+		"sinon": "^1"
 	},
 
 	"main": "./lib/truffler.js",
