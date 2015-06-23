@@ -1,6 +1,11 @@
 
 # History
 
+## 1.0.2 (2015-06-23)
+
+  * Use JSCS to check for code-style issues
+  * Update dependencies
+
 ## 1.0.1 (2015-05-20)
 
   * Add an example of testing multiple URLs
