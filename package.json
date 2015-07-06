@@ -1,6 +1,6 @@
 {
 	"name": "truffler",
-	"version": "1.0.2",
+	"version": "1.0.3",
 
 	"description": "Access web pages programmatically with PhantomJS, for running tests or scraping information",
 	"keywords": [ "dom", "html", "phantomjs", "test" ],

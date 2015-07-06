@@ -1,6 +1,10 @@
 
 # History
 
+## 1.0.3 (2015-07-06)
+
+  * Update hasbin to fix an issue which broke Windows support
+
 ## 1.0.2 (2015-06-23)
 
   * Use JSCS to check for code-style issues
