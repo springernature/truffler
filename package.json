@@ -22,7 +22,7 @@
 		"node": ">=0.10"
 	},
 	"dependencies": {
-		"hasbin": "~1.0",
+		"hasbin": "~1.1",
 		"node.extend": "~1.1",
 		"phantom": "~0.7"
 	},
