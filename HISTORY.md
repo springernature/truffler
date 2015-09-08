@@ -1,6 +1,11 @@
 
 # History
 
+## 1.0.4 (2015-09-08)
+
+  * Update dependencies
+  * Add code coverage reporting
+
 ## 1.0.3 (2015-07-06)
 
   * Update hasbin to fix an issue which broke Windows support
