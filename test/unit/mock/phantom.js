@@ -15,6 +15,6 @@ var phantom = module.exports = {
 	}
 };
 
-phantom.create.yieldsAsync(phantom.mockBrowser);
-phantom.mockBrowser.createPage.yieldsAsync(phantom.mockPage);
-phantom.mockPage.open.yieldsAsync('success');
+phantom.create.yieldsAsync(null, phantom.mockBrowser);
+phantom.mockBrowser.createPage.yieldsAsync(null, phantom.mockPage);
+phantom.mockPage.open.yieldsAsync(null, 'success');

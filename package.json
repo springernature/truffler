@@ -24,7 +24,7 @@
 	"dependencies": {
 		"hasbin": "~1.1",
 		"node.extend": "~1.1",
-		"phantom": "~0.7"
+		"node-phantom-simple": "^1.2.0"
 	},
 	"devDependencies": {
 		"async": "^1",

@@ -14,7 +14,7 @@ truffler({
 				/* global document */
 				return document.title;
 			},
-			function (result) {
+			function (err, result) {
 				done(null, result);
 			}
 		);
