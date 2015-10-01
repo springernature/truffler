@@ -1,6 +1,11 @@
 
 # History
 
+## 1.0.5 (2015-10-01)
+
+  * Add Node.js 4.x support
+  * Update dependencies
+
 ## 1.0.4 (2015-09-08)
 
   * Update dependencies
