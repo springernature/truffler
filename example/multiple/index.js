@@ -7,15 +7,15 @@ var truffler = require('../..');
 truffler({
 
 	// The test function which will get run on URLs
-	testFunction: function (browser, page, done) {
+	testFunction: function(browser, page, done) {
 
 		// Evaluate the page, extract the title, and callback
 		page.evaluate(
-			function () {
+			function() {
 				/* global document */
 				return document.title;
 			},
-			function (result) {
+			function(result) {
 				done(null, result);
 			}
 		);
@@ -29,7 +29,7 @@ truffler({
 		info: console.log.bind(console)
 	}
 
-}, function (error, test, exit) {
+}, function(error, test, exit) {
 
 	// Use the async library to run multiple tests in series
 	// https://github.com/caolan/async
@@ -41,7 +41,7 @@ truffler({
 		// Test the Nature Plants home page
 		plants: test.bind(null, 'http://nature.com/nplants/')
 
-	}, function (error, results) {
+	}, function(error, results) {
 
 		// Log the results
 		console.log('The title of the Nature home page is: ' + results.home);
