@@ -147,8 +147,8 @@ describe('lib/truffler', function() {
 	it('should create a PhantomJS browser with the expected options', function(done) {
 		truffler({}, function() {
 			assert.calledOnce(phantom.create);
-			assert.isFunction(phantom.create.firstCall.args[0]);
-			assert.strictEqual(phantom.create.firstCall.args[1], extend.firstCall.returnValue.phantom);
+			assert.strictEqual(phantom.create.firstCall.args[0], extend.firstCall.returnValue.phantom);
+			assert.isFunction(phantom.create.firstCall.args[1]);
 			done();
 		});
 	});
