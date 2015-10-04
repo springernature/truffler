@@ -22,12 +22,13 @@
 		"node": ">=0.10"
 	},
 	"dependencies": {
+		"async": "~1.4",
+		"freeport": "~1.0",
 		"hasbin": "~1.1",
 		"node.extend": "~1.1",
 		"node-phantom-simple": "~2.0"
 	},
 	"devDependencies": {
-		"async": "^1",
 		"istanbul": "~0.3",
 		"jscs": "^2",
 		"jshint": "^2",

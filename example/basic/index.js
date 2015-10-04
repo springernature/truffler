@@ -2,24 +2,8 @@
 
 var truffler = require('../..');
 
-// Start truffling
-truffler({
-
-	// The test function which will get run on URLs
-	testFunction: function(browser, page, done) {
-
-		// Evaluate the page, extract the title, and callback
-		page.evaluate(
-			function() {
-				/* global document */
-				return document.title;
-			},
-			function(error, result) {
-				done(null, result);
-			}
-		);
-
-	},
+// Create a test instance with some default options
+var test = truffler({
 
 	// Log what's happening to the console
 	log: {
@@ -28,17 +12,23 @@ truffler({
 		info: console.log.bind(console)
 	}
 
-}, function(error, test, exit) {
+// The test function which will get run on URLs
+}, function(browser, page, done) {
 
-	// Test http://nature.com/
-	test('nature.com', function(error, result) {
+	// Evaluate the page, extract the title, and callback
+	page.evaluate(
+		function() {
+			/* global document */
+			return document.title;
+		},
+		function(error, result) {
+			done(null, result);
+		}
+	);
 
-		// Log the result
-		console.log('The title of the page is: ' + result);
+});
 
-		// Exit truffler
-		exit();
-
-	});
-
+// Test http://nature.com/
+test.run('nature.com', function(error, result) {
+	console.log('The title of the page is: ' + result);
 });

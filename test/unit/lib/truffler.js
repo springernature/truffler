@@ -7,17 +7,20 @@ var mockery = require('mockery');
 var sinon = require('sinon');
 
 describe('lib/truffler', function() {
-	var extend, hasbin, phantom, pkg, truffler;
+	var extend, freeport, hasbin, phantom, pkg, truffler;
 
 	beforeEach(function() {
 
 		extend = sinon.spy(require('node.extend'));
 		mockery.registerMock('node.extend', extend);
 
+		freeport = require('../mock/freeport');
+		mockery.registerMock('freeport', freeport);
+
 		hasbin = require('../mock/hasbin');
 		mockery.registerMock('hasbin', hasbin);
 
-		phantom = require('../mock/phantom');
+		phantom = require('../mock/node-phantom-simple');
 		mockery.registerMock('node-phantom-simple', phantom);
 
 		pkg = require('../../../package.json');
@@ -85,267 +88,406 @@ describe('lib/truffler', function() {
 			assert.isObject(defaults.phantom);
 		});
 
-		it('should have a `phantom.port` property', function() {
-			assert.strictEqual(defaults.phantom.port, 12300);
+	});
+
+	describe('.truffler(testFunction)', function() {
+		var instance, testFunction;
+
+		beforeEach(function() {
+			testFunction = sinon.spy();
+			instance = truffler(testFunction);
 		});
 
-		it('should have a `testFunction` method', function() {
-			assert.isFunction(defaults.testFunction);
+		it('should return a Truffler instance', function() {
+			assert.isObject(instance);
+		});
+
+		describe('returned instance', function() {
+
+			it('should have an `options` property which matches the defaults', function() {
+				assert.isObject(instance.options);
+				assert.notStrictEqual(instance.options, truffler.defaults);
+				assert.deepEqual(instance.options, truffler.defaults);
+			});
+
+			it('should have a `testFunction` property set to the passed in function', function() {
+				assert.isFunction(instance.testFunction);
+				assert.strictEqual(instance.testFunction, testFunction);
+			});
+
 		});
 
 	});
 
-	it('should not callback with an error', function(done) {
-		truffler({}, function(error) {
-			assert.isNull(error);
-			done();
-		});
-	});
+	describe('.truffler(options, testFunction)', function() {
+		var instance, options, testFunction;
 
-	it('should callback with a test function', function(done) {
-		truffler({}, function(error, test) {
-			assert.isFunction(test);
-			done();
+		beforeEach(function() {
+			options = {
+				foo: 'bar'
+			};
+			testFunction = sinon.spy();
+			instance = truffler(options, testFunction);
 		});
-	});
 
-	it('should callback with an exit function', function(done) {
-		truffler({}, function(error, test, exit) {
-			assert.isFunction(exit);
-			done();
+		it('should return a Truffler instance', function() {
+			assert.isObject(instance);
 		});
-	});
 
-	it('should default the options', function(done) {
-		var options = {};
-		truffler(options, function() {
+		it('should default the options', function() {
 			assert.calledOnce(extend);
 			assert.isTrue(extend.firstCall.args[0]);
 			assert.isObject(extend.firstCall.args[1]);
 			assert.strictEqual(extend.firstCall.args[2], truffler.defaults);
 			assert.strictEqual(extend.firstCall.args[3], options);
-			done();
 		});
+
+		it('should check for presence of PhantomJS binary', function() {
+			assert.calledOnce(hasbin.some.sync);
+			assert.calledWith(hasbin.some.sync, ['phantomjs', 'phantomjs.exe']);
+		});
+
+		it('should throw if PhantomJS is not found', function() {
+			hasbin.some.sync.returns(false);
+			assert.throws(function() {
+				truffler();
+			}, 'PhantomJS binary was not found in PATH');
+		});
+
+		describe('returned instance', function() {
+
+			it('should have an `options` property which matches the user options merged with defaults', function() {
+				assert.isObject(instance.options);
+				assert.notStrictEqual(instance.options, options);
+				assert.notStrictEqual(instance.options, truffler.defaults);
+				assert.strictEqual(instance.options, extend.firstCall.returnValue);
+			});
+
+			it('should have a `testFunction` property set to the passed in function', function() {
+				assert.isFunction(instance.testFunction);
+				assert.strictEqual(instance.testFunction, testFunction);
+			});
+
+		});
+
 	});
 
-	it('should check for presence of PhantomJS binary', function(done) {
-		truffler({}, function() {
-			assert.calledOnce(hasbin.some);
-			assert.calledWith(hasbin.some, ['phantomjs', 'phantomjs.exe']);
-			done();
+	describe('Truffler instance', function() {
+		var instance;
+
+		beforeEach(function() {
+			instance = truffler();
+			instance.options = {};
+			instance.testFunction = sinon.stub().yieldsAsync(null);
 		});
-	});
 
-	it('should callback with an error if PhantomJS is not found', function(done) {
-		hasbin.some.yieldsAsync(false);
-		truffler({}, function(error) {
-			assert.strictEqual(error.message, 'PhantomJS binary was not found in PATH');
-			done();
+		it('should have a `run` method', function() {
+			assert.isFunction(instance.run);
 		});
-	});
 
-	it('should create a PhantomJS browser with the expected options', function(done) {
-		truffler({}, function() {
-			assert.calledOnce(phantom.create);
-			assert.strictEqual(phantom.create.firstCall.args[0], extend.firstCall.returnValue.phantom);
-			assert.isFunction(phantom.create.firstCall.args[1]);
-			done();
+		describe('.run(url, options, done)', function() {
+			var done, options, url;
+
+			beforeEach(function() {
+				url = 'foo';
+				options = {
+					foo: 'bar'
+				};
+				done = sinon.spy();
+				instance._run = sinon.stub();
+				instance.run(url, options, done);
+			});
+
+			it('should call the `_run` method with the passed in arguments', function() {
+				assert.calledOnce(instance._run);
+				assert.calledWithExactly(instance._run, url, options, done);
+			});
+
 		});
-	});
 
-	it('should log the creation of a PhantomJS browser', function(done) {
-		var options = {
-			log: {
-				info: sinon.spy()
-			}
-		};
-		truffler(options, function() {
-			assert.calledWith(options.log.info, 'PhantomJS browser created');
-			done();
+		describe('.run(url, done)', function() {
+			var done, url;
+
+			beforeEach(function() {
+				url = 'foo';
+				done = sinon.spy();
+				instance._run = sinon.stub();
+				instance.run(url, done);
+			});
+
+			it('should call the `_run` method with the URL, an empty options object, and the callback', function() {
+				assert.calledOnce(instance._run);
+				assert.strictEqual(instance._run.firstCall.args[0], url);
+				assert.deepEqual(instance._run.firstCall.args[1], {});
+				assert.strictEqual(instance._run.firstCall.args[2], done);
+			});
+
 		});
-	});
 
-	describe('test function', function() {
-		var options, test;
+		describe('.run(options, done)', function() {
+			var done, options;
 
-		beforeEach(function(done) {
-			options = {
-				log: {
-					debug: sinon.spy(),
-					error: sinon.spy(),
-					info: sinon.spy()
-				},
-				page: {
-					headers: {
-						foo: 'bar'
+			beforeEach(function() {
+				options = {
+					foo: 'bar',
+					url: 'foo'
+				};
+				done = sinon.spy();
+				instance._run = sinon.stub();
+				instance.run(options, done);
+			});
+
+			it('should call the `_run` method with `options.url`, the options (minus URL), and the callback', function() {
+				assert.calledOnce(instance._run);
+				assert.strictEqual(instance._run.firstCall.args[0], options.url);
+				assert.deepEqual(instance._run.firstCall.args[1], options);
+				assert.strictEqual(instance._run.firstCall.args[2], done);
+			});
+
+		});
+
+		it('should have a `_run` method', function() {
+			assert.isFunction(instance._run);
+		});
+
+		describe('._run(url, options, done)', function() {
+			var expectedResult, options, runResult, url;
+
+			beforeEach(function(done) {
+				url = 'http://foo';
+				options = {
+					foo: 'bar',
+					log: {
+						debug: sinon.spy(),
+						error: sinon.spy(),
+						info: sinon.spy()
 					},
-					settings: {
-						foo: 'bar',
+					page: {
+						headers: {
+							Foo: 'bar',
+							Bar: 'baz'
+						},
+						settings: {
+							baz: 'qux',
+							qux: 'foo'
+						},
+						viewport: {
+							width: 1234,
+							height: 5678
+						}
+					},
+					phantom: {
+						port: 1234,
 						bar: 'baz'
-					},
-					viewport: {
-						width: 1234,
-						height: 5678
 					}
-				},
-				testFunction: sinon.stub().yieldsAsync(null, 'result')
-			};
-			truffler(options, function(error, testFn) {
-				test = testFn;
-				done();
+				};
+				expectedResult = {
+					ok: true
+				};
+				extend.reset();
+				instance.sanitizeUrl = sinon.stub().returnsArg(0);
+				instance.testFunction.yieldsAsync(null, expectedResult);
+				instance._run(url, options, function(error, result) {
+					runResult = result;
+					done();
+				});
 			});
-		});
 
-		it('should callback without an error', function(done) {
-			test('http://foo', function(error) {
-				assert.isNull(error);
-				done();
+			it('should sanitize the URL', function() {
+				assert.calledOnce(instance.sanitizeUrl);
+				assert.calledWithExactly(instance.sanitizeUrl, url);
 			});
-		});
 
-		it('should log that the test has begun', function(done) {
-			test('http://foo', function() {
-				assert.calledWith(options.log.info, 'Testing page: "http://foo"');
-				done();
+			it('should default the options against the instance options', function() {
+				assert.calledOnce(extend);
+				assert.isTrue(extend.firstCall.args[0]);
+				assert.isObject(extend.firstCall.args[1]);
+				assert.strictEqual(extend.firstCall.args[2], instance.options);
+				assert.strictEqual(extend.firstCall.args[3], options);
 			});
-		});
 
-		it('should create a PhantomJS page', function(done) {
-			test('http://foo', function() {
+			it('should create a PhantomJS browser with the defaulted options', function() {
+				assert.calledOnce(phantom.create);
+				assert.calledWith(phantom.create, extend.firstCall.returnValue.phantom);
+				assert.isFunction(phantom.create.firstCall.args[1]);
+			});
+
+			it('should not randomize the PhantomJS port if one is specified', function() {
+				assert.notCalled(freeport);
+				assert.strictEqual(phantom.create.firstCall.args[0].port, options.phantom.port);
+			});
+
+			it('should randomize the PhantomJS port if one is not specified', function(done) {
+				delete options.phantom.port;
+				freeport.yieldsAsync(null, 5678);
+				phantom.create.reset();
+				instance._run(url, options, function() {
+					assert.calledOnce(freeport);
+					assert.strictEqual(phantom.create.firstCall.args[0].port, 5678);
+					done();
+				});
+			});
+
+			it('should log the creation of the PhantomJS browser', function() {
+				assert.calledWith(options.log.info, 'PhantomJS browser created');
+			});
+
+			it('should callback with an error if the PhantomJS browser creation fails', function(done) {
+				var expectedError = new Error('...');
+				phantom.create.yieldsAsync(expectedError);
+				instance._run(url, options, function(error) {
+					assert.strictEqual(error, expectedError);
+					done();
+				});
+			});
+
+			it('should callback with an error if the port randomization fails', function(done) {
+				var expectedError = new Error('...');
+				delete options.phantom.port;
+				freeport.yieldsAsync(expectedError);
+				instance._run(url, options, function(error) {
+					assert.strictEqual(error, expectedError);
+					done();
+				});
+			});
+
+			it('should create a PhantomJS page in the browser', function() {
 				assert.calledOnce(phantom.mockBrowser.createPage);
 				assert.isFunction(phantom.mockBrowser.createPage.firstCall.args[0]);
-				done();
 			});
-		});
 
-		it('should log that the PhantomJS page has been created', function(done) {
-			test('http://foo', function() {
-				assert.calledWith(options.log.debug, 'PhantomJS page created for "http://foo"');
-				done();
+			it('should log the creation of the PhantomJS page', function() {
+				assert.calledWith(options.log.debug, 'PhantomJS page created');
 			});
-		});
 
-		it('should set the page\'s settings', function(done) {
-			test('http://foo', function() {
-				assert.calledWith(phantom.mockPage.set, 'settings.foo', 'bar');
-				assert.calledWith(phantom.mockPage.set, 'settings.bar', 'baz');
-				done();
+			it('should callback with an error if the PhantomJS page creation fails', function(done) {
+				var expectedError = new Error('...');
+				phantom.mockBrowser.createPage.yieldsAsync(expectedError);
+				instance._run(url, options, function(error) {
+					assert.strictEqual(error, expectedError);
+					done();
+				});
 			});
-		});
 
-		it('should set the page\'s viewport', function(done) {
-			test('http://foo', function() {
-				assert.calledWith(phantom.mockPage.set, 'viewportSize', options.page.viewport);
-				done();
-			});
-		});
-
-		it('should set the page\'s headers', function(done) {
-			test('http://foo', function() {
+			it('should apply custom headers to the PhantomJS page', function() {
 				assert.calledWith(phantom.mockPage.set, 'customHeaders', options.page.headers);
-				done();
 			});
-		});
 
-		it('should open the test URL in the page', function(done) {
-			test('http://foo', function() {
+			it('should apply each of the page settings to the PhantomJS page', function() {
+				assert.calledWith(phantom.mockPage.set, 'settings.baz', 'qux');
+				assert.calledWith(phantom.mockPage.set, 'settings.qux', 'foo');
+			});
+
+			it('should apply the viewport size to the PhantomJS page', function() {
+				assert.calledWith(phantom.mockPage.set, 'viewportSize', options.page.viewport);
+			});
+
+			it('should open the given URL in the PhantomJS page', function() {
 				assert.calledOnce(phantom.mockPage.open);
-				assert.calledWith(phantom.mockPage.open, 'http://foo');
+				assert.calledWith(phantom.mockPage.open, url);
 				assert.isFunction(phantom.mockPage.open.firstCall.args[1]);
-				done();
 			});
+
+			it('should log that the URL is being opened', function() {
+				assert.calledWith(options.log.debug, 'Opening "' + url + '" in PhantomJS');
+			});
+
+			it('should log that the URL was opened', function() {
+				assert.calledWith(options.log.debug, 'Opened "' + url + '" in PhantomJS');
+			});
+
+			it('should callback with an error if the PhantomJS page open fails', function(done) {
+				var expectedError = new Error('...');
+				phantom.mockPage.open.yieldsAsync(expectedError);
+				instance._run(url, options, function(error) {
+					assert.strictEqual(error, expectedError);
+					done();
+				});
+			});
+
+			it('should callback with an error if the PhantomJS page status is not "success"', function(done) {
+				phantom.mockPage.open.yieldsAsync(null, 'fail');
+				instance._run(url, options, function(error) {
+					assert.instanceOf(error, Error);
+					assert.strictEqual(error.message, 'Page "' + url + '" could not be opened');
+					done();
+				});
+			});
+
+			it('should run the instance test function, passing in the PhantomJS browser and page', function() {
+				assert.calledOnce(instance.testFunction);
+				assert.calledWith(instance.testFunction, phantom.mockBrowser, phantom.mockPage);
+				assert.isFunction(instance.testFunction.firstCall.args[2]);
+			});
+
+			it('should log that the test function is being run', function() {
+				assert.calledWith(options.log.info, 'Testing the page "' + url + '"');
+			});
+
+			it('should log that the test function ran', function() {
+				assert.calledWith(options.log.debug, 'Test function ran for "' + url + '"');
+			});
+
+			it('should callback with an error if the test function errors', function(done) {
+				var expectedError = new Error('...');
+				instance.testFunction.yieldsAsync(expectedError);
+				instance._run(url, options, function(error) {
+					assert.strictEqual(error, expectedError);
+					done();
+				});
+			});
+
+			it('should log that the test function errored if the test function errors', function(done) {
+				var expectedError = new Error('...');
+				instance.testFunction.yieldsAsync(expectedError);
+				instance._run(url, options, function() {
+					assert.calledWith(options.log.error, 'Test function errored for "' + url + '"');
+					done();
+				});
+			});
+
+			it('should exit the PhantomJS browser', function() {
+				assert.calledOnce(phantom.mockBrowser.exit);
+			});
+
+			it('should log that the PhantomJS browser exited', function() {
+				assert.calledWith(options.log.debug, 'PhantomJS browser exited');
+			});
+
+			it('should callback with the result of the test function', function() {
+				assert.strictEqual(runResult, expectedResult);
+			});
+
+			it('should run everything in the correct order', function() {
+				assert.callOrder(
+					phantom.create,
+					phantom.mockBrowser.createPage,
+					phantom.mockPage.open,
+					instance.testFunction
+				);
+			});
+
 		});
 
-		it('should log that the PhantomJS page has been opened', function(done) {
-			test('http://foo', function() {
-				assert.calledWith(options.log.debug, 'PhantomJS page for "http://foo" opened');
-				done();
-			});
+		it('should have a `sanitizeUrl` method', function() {
+			assert.isFunction(instance.sanitizeUrl);
 		});
 
-		it('should add a scheme to the test URL if one is not present', function(done) {
-			test('foo', function() {
-				assert.calledOnce(phantom.mockPage.open);
-				assert.calledWith(phantom.mockPage.open, 'http://foo');
-				assert.isFunction(phantom.mockPage.open.firstCall.args[1]);
-				done();
+		describe('.sanitizeUrl(url)', function() {
+
+			it('should return the passed in URL if it doesn\'t need sanitizing', function() {
+				assert.strictEqual(instance.sanitizeUrl('http://foo'), 'http://foo');
+				assert.strictEqual(instance.sanitizeUrl('https://foo'), 'https://foo');
 			});
-		});
 
-		it('should callback with an error if opening the page fails', function(done) {
-			phantom.mockPage.open.yieldsAsync('fail');
-			test('http://foo', function(error) {
-				assert.isObject(error);
-				assert.strictEqual(error.message, 'Page "http://foo" could not be loaded');
-				done();
+			it('should add an "http" scheme if one is not present', function() {
+				assert.strictEqual(instance.sanitizeUrl('foo'), 'http://foo');
 			});
-		});
 
-		it('should log that the PhantomJS page open has failed if it does', function(done) {
-			phantom.mockPage.open.yieldsAsync('fail');
-			test('http://foo', function() {
-				assert.calledWith(options.log.error, 'PhantomJS failed to open "http://foo"');
-				done();
+			it('should trim the URL', function() {
+				assert.strictEqual(instance.sanitizeUrl('  foo  '), 'http://foo');
 			});
-		});
 
-		it('should run the test function, passing in the browser, page, and callback', function(done) {
-			test('http://foo', function() {
-				assert.calledOnce(options.testFunction);
-				assert.calledWith(options.testFunction, phantom.mockBrowser, phantom.mockPage);
-				assert.isFunction(options.testFunction.firstCall.args[2]);
-				done();
-			});
-		});
-
-		it('should callback with the test function results', function(done) {
-			test('http://foo', function(error, result) {
-				assert.isNull(error);
-				assert.strictEqual(result, 'result');
-				done();
-			});
-		});
-
-		it('should log that the test function has been run', function(done) {
-			test('http://foo', function() {
-				assert.calledWith(options.log.debug, 'Test function ran for "http://foo"');
-				done();
-			});
-		});
-
-		it('should callback with an error if the test function errors', function(done) {
-			var testError = new Error('...');
-			options.testFunction.yieldsAsync(testError);
-			test('http://foo', function(error) {
-				assert.strictEqual(error, testError);
-				done();
-			});
-		});
-
-		it('should log that the test function has failed if it does', function(done) {
-			var testError = new Error('...');
-			options.testFunction.yieldsAsync(testError);
-			test('http://foo', function() {
-				assert.calledWith(options.log.error, 'Test function errored for "http://foo"');
-				done();
-			});
-		});
-
-	});
-
-	describe('exit function', function() {
-		var exit;
-
-		beforeEach(function(done) {
-			truffler({}, function(error, testFn, exitFn) {
-				exit = exitFn;
-				done();
-			});
-		});
-
-		it('should exit the PhantomJS browser', function() {
-			exit();
-			assert.calledOnce(phantom.mockBrowser.exit);
 		});
 
 	});

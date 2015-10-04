@@ -17,7 +17,7 @@
 	"maxcomplexity": 3,
 	"maxdepth": 1,
 	"maxparams": 4,
-	"maxstatements": 6,
+	"maxstatements": 10,
 	"noarg": true,
 	"node": true,
 	"nonew": true,
