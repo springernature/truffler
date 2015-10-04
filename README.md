@@ -189,6 +189,7 @@ Defaults to:
 
 ```js
 {
+    resourceTimeout: 30000,
     userAgent: 'truffler/<version>'
 }
 ```

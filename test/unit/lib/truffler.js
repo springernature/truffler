@@ -68,6 +68,10 @@ describe('lib/truffler', function() {
 			assert.isObject(defaults.page.settings);
 		});
 
+		it('should have a `page.settings.resourceTimeout` property', function() {
+			assert.strictEqual(defaults.page.settings.resourceTimeout, 30000);
+		});
+
 		it('should have a `page.settings.userAgent` property', function() {
 			assert.strictEqual(defaults.page.settings.userAgent, 'truffler/' + pkg.version);
 		});
