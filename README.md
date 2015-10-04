@@ -32,6 +32,7 @@ Table Of Contents
 - [Options](#options)
 - [Examples](#examples)
 - [Contributing](#contributing)
+- [Migrating](#migrating)
 - [License](#license)
 
 
@@ -266,6 +267,14 @@ make ci
 ```
 
 
+Migrating
+---------
+
+If you're using Truffler 1.0 and wish to migrate to 2.0, we've written a [Migration Guide](MIGRATION.md) to help with that.
+
+It's recommended that you migrate to 2.0 as soon as possible, but [1.0 is still available on the 1.x branch][1.x]. We'll be providing support for 1.0 for the forseeable future, but there will be no new feature development.
+
+
 License
 -------
 
@@ -274,6 +283,7 @@ Copyright &copy; 2015, Nature Publishing Group
 
 
 
+[1.x]: https://github.com/nature/truffler/tree/1.x
 [async]: https://github.com/caolan/async
 [npm]: https://npmjs.org/
 [phantom]: http://phantomjs.org/
