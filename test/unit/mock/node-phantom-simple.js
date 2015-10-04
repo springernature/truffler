@@ -9,6 +9,7 @@ var phantom = module.exports = {
 		exit: sinon.stub()
 	},
 	mockPage: {
+		close: sinon.stub(),
 		open: sinon.stub(),
 		set: sinon.stub().yieldsAsync()
 	}

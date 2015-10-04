@@ -446,6 +446,10 @@ describe('lib/truffler', function() {
 				});
 			});
 
+			it('should close the PhantomJS page', function() {
+				assert.calledOnce(phantom.mockPage.close);
+			});
+
 			it('should exit the PhantomJS browser', function() {
 				assert.calledOnce(phantom.mockBrowser.exit);
 			});
