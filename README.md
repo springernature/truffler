@@ -234,6 +234,20 @@ truffler({
 
 Defaults to an empty object. If `phantom.port` is not specified, a random available port will be used.
 
+### `timeout` (number)
+
+The maximum time (in milliseconds) that Truffler should run for. This timeout can sometimes be exceeded, if a long-running task has started within PhantomJS itself. This is rare, but you shouldn't rely on exact timing.
+
+If the timeout is exceeded, the test function will callback with an error and no results.
+
+```js
+truffler({
+    timeout: 1000
+});
+```
+
+Defaults to `30000` (30 seconds).
+
 
 Examples
 --------

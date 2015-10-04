@@ -20,6 +20,12 @@ function startMockWebsite(done) {
 			response.end(headers.join('\n'));
 		},
 
+		'/timeout': function(request, response) {
+			setTimeout(function() {
+				response.end('timeout');
+			}, 10000);
+		},
+
 		default: function(request, response) {
 			response.writeHead(404);
 			response.end('not found');

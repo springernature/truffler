@@ -88,6 +88,10 @@ describe('lib/truffler', function() {
 			assert.isObject(defaults.phantom);
 		});
 
+		it('should have a `timeout` property', function() {
+			assert.strictEqual(defaults.timeout, 30000);
+		});
+
 	});
 
 	describe('.truffler(testFunction)', function() {
@@ -469,6 +473,21 @@ describe('lib/truffler', function() {
 					phantom.mockPage.open,
 					instance.testFunction
 				);
+			});
+
+			it('should error if the process times out', function(done) {
+				var clock = sinon.useFakeTimers();
+				options.timeout = 100;
+				phantom.create = function(options, callback) {
+					clock.tick(101);
+					callback(null, phantom.mockBrowser);
+				};
+				instance._run(url, options, function(error) {
+					clock.restore();
+					assert.instanceOf(error, Error);
+					assert.strictEqual(error.message, 'Truffler timed out (100ms)');
+					done();
+				});
 			});
 
 		});

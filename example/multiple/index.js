@@ -40,9 +40,9 @@ async.series({
 	plants: test.run.bind(test, 'http://nature.com/nplants/')
 
 }, function(error, results) {
-
-	// Log the results
+	if (error) {
+		return console.error(error.message);
+	}
 	console.log('The title of the Nature home page is: ' + results.home);
 	console.log('The title of the Nature Plants home page is: ' + results.plants);
-
 });

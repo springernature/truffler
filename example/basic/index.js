@@ -30,5 +30,8 @@ var test = truffler({
 
 // Test http://nature.com/
 test.run('nature.com', function(error, result) {
+	if (error) {
+		return console.error(error.message);
+	}
 	console.log('The title of the page is: ' + result);
 });
