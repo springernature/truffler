@@ -1,13 +1,14 @@
 {
 	"name": "truffler",
-	"version": "1.0.5",
+	"version": "2.0.0",
 
 	"description": "Access web pages programmatically with PhantomJS, for running tests or scraping information",
 	"keywords": [ "dom", "html", "phantomjs", "test" ],
 
 	"author": "Nature Publishing Group",
 	"contributors": [
-		"Rowan Manning (http://rowanmanning.com/)"
+		"Rowan Manning (http://rowanmanning.com/)",
+		"Whymarrh Whitby (http://whymarrh.com/)"
 	],
 
 	"repository": {

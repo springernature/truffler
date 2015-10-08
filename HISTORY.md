@@ -1,6 +1,16 @@
 
 # History
 
+## 2.0.0 (2015-10-08)
+
+  * Initial 2.0 release
+  * Overhaul the API
+  * Drop Node.js 0.10 support
+  * Switch the PhantomJS bridge
+  * Specify a default `resourceTimeout` option
+  * Add a `timeout` option
+  * See the [migration guide](https://github.com/nature/truffler/blob/master/MIGRATION.md#migrating-from-10-to-20) for details
+
 ## 1.0.5 (2015-10-01)
 
   * Add Node.js 4.x support
