@@ -326,7 +326,7 @@ describe('lib/truffler', function() {
 			});
 
 			it('should randomize the PhantomJS port if one is not specified', function(done) {
-				delete options.phantom.port;
+				options.phantom.port = null;
 				freeport.yieldsAsync(null, 5678);
 				phantom.create.reset();
 				instance._run(url, options, function() {
@@ -351,7 +351,7 @@ describe('lib/truffler', function() {
 
 			it('should callback with an error if the port randomization fails', function(done) {
 				var expectedError = new Error('...');
-				delete options.phantom.port;
+				options.phantom.port = null;
 				freeport.yieldsAsync(expectedError);
 				instance._run(url, options, function(error) {
 					assert.strictEqual(error, expectedError);
