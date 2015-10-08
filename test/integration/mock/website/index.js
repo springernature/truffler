@@ -4,36 +4,40 @@ var fs = require('fs');
 var http = require('http');
 var parseUrl = require('url').parse;
 
-module.exports = startWebsite;
+module.exports = startMockWebsite;
 
-function startWebsite (port, done) {
+function startMockWebsite(done) {
 	var routes = {
 
-		'/': function (request, response) {
-			response.writeHead(200);
-			response.end(fs.readFileSync(__dirname + '/index.html'));
+		'/basic': function(request, response) {
+			response.end(fs.readFileSync(__dirname + '/basic.html'));
 		},
 
-		'/header-dump': function (request, response) {
-			response.writeHead(200);
-			response.end(
-				'Cookie: ' + request.headers.cookie + '\n' +
-				'Foo: ' + request.headers.foo
-			);
+		'/headers': function(request, response) {
+			var headers = Object.keys(request.headers).map(function(header) {
+				return header + ': ' + request.headers[header];
+			});
+			response.end(headers.join('\n'));
 		},
 
-		default: function (request, response) {
+		'/timeout': function(request, response) {
+			setTimeout(function() {
+				response.end('timeout');
+			}, 10000);
+		},
+
+		default: function(request, response) {
 			response.writeHead(404);
 			response.end('not found');
 		}
 
 	};
-	var website = http.createServer(function (request, response) {
+	var website = http.createServer(function(request, response) {
 		var url = parseUrl(request.url).pathname;
-		website.lastRequest = request;
 		(routes[url] || routes.default)(request, response);
 	});
-	website.listen(port, function (error) {
+	website.listen(function(error) {
+		website.url = 'http://localhost:' + website.address().port;
 		done(error, website);
 	});
 }

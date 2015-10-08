@@ -3,24 +3,8 @@
 var async = require('async');
 var truffler = require('../..');
 
-// Start truffling
-truffler({
-
-	// The test function which will get run on URLs
-	testFunction: function (browser, page, done) {
-
-		// Evaluate the page, extract the title, and callback
-		page.evaluate(
-			function () {
-				/* global document */
-				return document.title;
-			},
-			function (result) {
-				done(null, result);
-			}
-		);
-
-	},
+// Create a test instance with some default options
+var test = truffler({
 
 	// Log what's happening to the console
 	log: {
@@ -29,27 +13,36 @@ truffler({
 		info: console.log.bind(console)
 	}
 
-}, function (error, test, exit) {
+// The test function which will get run on URLs
+}, function(browser, page, done) {
 
-	// Use the async library to run multiple tests in series
-	// https://github.com/caolan/async
-	async.series({
+	// Evaluate the page, extract the title, and callback
+	page.evaluate(
+		function() {
+			/* global document */
+			return document.title;
+		},
+		function(error, result) {
+			done(null, result);
+		}
+	);
 
-		// Test the Nature home page
-		home: test.bind(null, 'http://nature.com/'),
+});
 
-		// Test the Nature Plants home page
-		plants: test.bind(null, 'http://nature.com/nplants/')
+// Use the async library to run multiple tests in series
+// https://github.com/caolan/async
+async.series({
 
-	}, function (error, results) {
+	// Test the Nature home page
+	home: test.run.bind(test, 'http://nature.com/'),
 
-		// Log the results
-		console.log('The title of the Nature home page is: ' + results.home);
-		console.log('The title of the Nature Plants home page is: ' + results.plants);
+	// Test the Nature Plants home page
+	plants: test.run.bind(test, 'http://nature.com/nplants/')
 
-		// Exit truffler
-		exit();
-
-	});
-
+}, function(error, results) {
+	if (error) {
+		return console.error(error.message);
+	}
+	console.log('The title of the Nature home page is: ' + results.home);
+	console.log('The title of the Nature Plants home page is: ' + results.plants);
 });

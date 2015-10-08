@@ -13,15 +13,13 @@ Access web pages programmatically with [PhantomJS][phantom], for running tests o
 ```js
 var truffler = require('truffler');
 
-truffler({
-    testFunction: function (browser, page, done) {
-        // do something with the PhantomJS browser and page
-        done();
-    }
-}, function (error, test, exit) {
-    test('http://www.nature.com/', function (error, results) {
-        console.log(results);
-    });
+var test = truffler(function(browser, page, done) {
+    // the test function to run in PhantomJS
+    done();
+});
+
+test.run('http://www.nature.com/', function(error, results) {
+    console.log(results);
 });
 ```
 
@@ -34,6 +32,7 @@ Table Of Contents
 - [Options](#options)
 - [Examples](#examples)
 - [Contributing](#contributing)
+- [Migrating](#migrating)
 - [License](#license)
 
 
@@ -56,55 +55,87 @@ Require in Truffler:
 var truffler = require('truffler');
 ```
 
-Create a test function by initialising Truffler with [some options](#options):
+Create a test runner by initialising Truffler with a test function. This test function has access to a PhantomJS [browser][phantom-browser] and [page][phantom-page] instance. The test function must accept a third argument which is a callback:
 
 ```js
-truffler(options, function (error, test, exit) { /* ... */ });
-```
-
-Within your callback, you can use the `test` and `exit` functions to run tests against web pages or exit PhantomJS:
-
-```js
-truffler(options, function (error, test, exit) {
-
-    // Run a test on nature.com
-    test('http://www.nature.com/', function (error, results) {
-        // ...
-    });
-
+var test = truffler(function(browser, page, done) {
+    // ... perform testing here ...
+    done(error, results);
 });
 ```
 
+Within this function, you have access to all of the behaviour in PhantomJS.
+
+You can also instantiate Truffler with some [default options](#options) if you wish. This allows you to change the way PhantomJS and your page is loaded:
+
 ```js
-truffler(options, function (error, test, exit) {
-
-    // Exit PhantomJS
-    exit();
-
+var test = truffler({
+    // ... options go here ...
+}, function(browser, page, done) {
+    // ... perform testing here ...
 });
 ```
 
-The results that get passed into your test callback come from the test function you define in options:
+The `test.run` function can then be used to run your test function against a URL:
 
 ```js
-truffler({
-    testFunction: function (browser, page, done) {
+test.run('http://www.nature.com/', function(error, results) {
+    // ...
+});
+```
 
-        // ... do something with PhantomJS
+The `error` and `results` parameters contain errors and results from the PhantomJS run against your page. The results can be any object you like. Here's an example test function which returns the page title if it has one, or errors if not.
 
-        // To indicate that an error occurred, call back with an error:
-        done(new Error('Something went wrong!'));
+```js
+var test = truffler(function(browser, page, done) {
+    page.evaluate(
+        function() {
+            return document.title;
+        },
+        function(error, title) {
+            if (!title) {
+                return done(new Error('The page has no title!'));
+            }
+            done(null, title);
+        }
+    );
+});
 
-        // To indicate success and pass results on, call back with the results:
-        done(null, 'some information to pass along');
-
-    }
+test.run('http://www.nature.com/', function(error, title) {
+    // ... do something with the error and title ...
 });
 ```
 
 
 Options
 -------
+
+Truffler has lots of options you can use to change the way PhantomJS runs, or the way your page is loaded. Options can be set either on the Truffler instance when it's created or the individual test runs. This allows you to set some defaults which can be overridden per-test:
+
+```js
+// Set the default Foo header to "bar"
+var test = truffler({
+    page: {
+        headers: {
+            Foo: 'bar'
+        }
+    }
+}, function() { /* ... */ });
+
+// Run a test with the Foo header set to "bar"
+test.run('http://www.nature.com/', function(error, title) { /* ... */});
+
+// Run a test with the Foo header overridden
+test.run('http://www.nature.com/', {
+    page: {
+        headers: {
+            Foo: 'hello'
+        }
+    }
+}, function(error, title) { /* ... */});
+```
+
+Below is a reference of all the options that are available:
 
 ### `log` (object)
 
@@ -140,7 +171,7 @@ Defaults to an empty object.
 
 ### `page.settings` (object)
 
-A key-value map of request headers to add to the PhantomJS page as settings. For a full list of available settings, see the [PhantomJS page settings documentation][phantom-page-settings].
+A key-value map of settings to add to the PhantomJS page. For a full list of available settings, see the [PhantomJS page settings documentation][phantom-page-settings].
 
 ```js
 truffler({
@@ -158,6 +189,7 @@ Defaults to:
 
 ```js
 {
+    resourceTimeout: 30000,
     userAgent: 'truffler/<version>'
 }
 ```
@@ -201,23 +233,21 @@ truffler({
 });
 ```
 
-Defaults to:
+Defaults to an empty object. If `phantom.port` is not specified, a random available port will be used.
+
+### `timeout` (number)
+
+The maximum time (in milliseconds) that Truffler should run for. This timeout can sometimes be exceeded, if a long-running task has started within PhantomJS itself. This is rare, but you shouldn't rely on exact timing.
+
+If the timeout is exceeded, the test function will callback with an error and no results.
 
 ```js
-{
-    port: 12300
-}
+truffler({
+    timeout: 1000
+});
 ```
 
-### `testFunction` (function)
-
-The function to run when a page is tested with Truffler. This should accept three arguments:
-
-- `browser`: A PhantomJS [browser][phantom-browser] instance
-- `page`: A PhantomJS [page][phantom-page] instance
-- `done`: A callback function to be called when testing is complete
-
-The browser and page instances are provided by the phantom module, which makes [a few small changes to the API][phantom-node-options].
+Defaults to `30000` (30 seconds).
 
 
 Examples
@@ -252,6 +282,14 @@ make ci
 ```
 
 
+Migrating
+---------
+
+If you're using Truffler 1.0 and wish to migrate to 2.0, we've written a [Migration Guide](MIGRATION.md) to help with that.
+
+It's recommended that you migrate to 2.0 as soon as possible, but [1.0 is still available on the 1.x branch][1.x]. We'll be providing support for 1.0 for the forseeable future, but there will be no new feature development.
+
+
 License
 -------
 
@@ -260,6 +298,7 @@ Copyright &copy; 2015, Nature Publishing Group
 
 
 
+[1.x]: https://github.com/nature/truffler/tree/1.x
 [async]: https://github.com/caolan/async
 [npm]: https://npmjs.org/
 [phantom]: http://phantomjs.org/
@@ -275,6 +314,6 @@ Copyright &copy; 2015, Nature Publishing Group
 [info-build]: https://travis-ci.org/nature/truffler
 [shield-dependencies]: https://img.shields.io/gemnasium/nature/truffler.svg
 [shield-license]: https://img.shields.io/badge/license-MIT-blue.svg
-[shield-node]: https://img.shields.io/badge/node.js%20support-0.10–4-brightgreen.svg
+[shield-node]: https://img.shields.io/badge/node.js%20support-0.12–4-brightgreen.svg
 [shield-npm]: https://img.shields.io/npm/v/truffler.svg
 [shield-build]: https://img.shields.io/travis/nature/truffler/master.svg

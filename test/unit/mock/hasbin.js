@@ -2,5 +2,8 @@
 
 var sinon = require('sinon');
 
-var hasbin = module.exports = sinon.stub();
-hasbin.some = sinon.stub().yieldsAsync(true);
+module.exports = {
+	some: {
+		sync: sinon.stub().returns(true)
+	}
+};

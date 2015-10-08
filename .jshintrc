@@ -1,4 +1,8 @@
 {
+	"browser": true,
+	"curly": true,
+	"eqeqeq": true,
+	"forin": true,
 	"globals": {
 		"after": true,
 		"afterEach": true,
@@ -8,11 +12,21 @@
 		"it": true
 	},
 	"globalstrict": true,
+	"jquery": true,
 	"latedef": "nofunc",
-	"maxparams": 4,
+	"maxcomplexity": 4,
 	"maxdepth": 1,
-	"maxstatements": 6,
-	"maxcomplexity": 3,
+	"maxparams": 4,
+	"maxstatements": 15,
+	"noarg": true,
 	"node": true,
+	"nonew": true,
+	"nonstandard": true,
+	"quotmark": "single",
+	"regexp": true,
+	"shadow": true,
+	"sub": true,
+	"trailing": true,
+	"undef": true,
 	"unused": true
 }
