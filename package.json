@@ -30,7 +30,7 @@
 		"node-phantom-simple": "~2.0"
 	},
 	"devDependencies": {
-		"istanbul": "~0.3",
+		"istanbul": "~0.4",
 		"jscs": "^2",
 		"jshint": "^2",
 		"mocha": "^2",

@@ -314,6 +314,6 @@ Copyright &copy; 2015, Nature Publishing Group
 [info-build]: https://travis-ci.org/nature/truffler
 [shield-dependencies]: https://img.shields.io/gemnasium/nature/truffler.svg
 [shield-license]: https://img.shields.io/badge/license-MIT-blue.svg
-[shield-node]: https://img.shields.io/badge/node.js%20support-0.12–4-brightgreen.svg
+[shield-node]: https://img.shields.io/badge/node.js%20support-0.12–5-brightgreen.svg
 [shield-npm]: https://img.shields.io/npm/v/truffler.svg
 [shield-build]: https://img.shields.io/travis/nature/truffler/master.svg
