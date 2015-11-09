@@ -1,6 +1,11 @@
 
 # History
 
+## 2.0.1 (2015-11-09)
+
+  * Support Node.js 5.x
+  * Update dependencies
+
 ## 2.0.0 (2015-10-08)
 
   * Initial 2.0 release
