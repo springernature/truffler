@@ -225,6 +225,7 @@ A key-value map of settings to initialise PhantomJS with. This is passed directl
 ```js
 truffler({
     phantom: {
+        path: 'PATH_TO_PHANTOMJS_EXE',
         port: 1234,
         parameters: {
             'ignore-ssl-errors': 'true'
