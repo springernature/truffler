@@ -42,6 +42,6 @@ test-coverage:
 # Run integration tests
 test-integration:
 	@echo "$(C_CYAN)> running integration tests$(C_RESET)"
-	@./node_modules/.bin/mocha ./test/integration --timeout 4000 --slow 100 --reporter spec --colors --recursive
+	@./node_modules/.bin/mocha ./test/integration --timeout 30000 --slow 100 --reporter spec --colors --recursive
 
 .PHONY: test
