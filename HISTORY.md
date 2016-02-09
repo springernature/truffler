@@ -18,7 +18,7 @@
   * Switch the PhantomJS bridge
   * Specify a default `resourceTimeout` option
   * Add a `timeout` option
-  * See the [migration guide](https://github.com/nature/truffler/blob/master/MIGRATION.md#migrating-from-10-to-20) for details
+  * See the [migration guide](https://github.com/springernature/truffler/blob/master/MIGRATION.md#migrating-from-10-to-20) for details
 
 ## 1.0.5 (2015-10-01)
 

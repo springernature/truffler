@@ -13,10 +13,10 @@
 
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/nature/truffler.git"
+		"url": "https://github.com/springernature/truffler.git"
 	},
-	"homepage": "https://github.com/nature/truffler",
-	"bugs": "https://github.com/nature/truffler/issues",
+	"homepage": "https://github.com/springernature/truffler",
+	"bugs": "https://github.com/springernature/truffler/issues",
 	"license": "MIT",
 
 	"engines": {

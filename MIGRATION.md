@@ -28,4 +28,4 @@ This introduces some slight incompatibilities, See the [node-phantom-simple usag
 
 ### Node.js Support
 
-Node.js 0.10 is no longer officially supported. We'll be running tests against it still, but these are marked as "allowed to fail". If you're absolutely reliant on Node.js 0.10, [check the latest build](https://travis-ci.org/nature/truffler) to verify that it's still working.
+Node.js 0.10 is no longer officially supported. We'll be running tests against it still, but these are marked as "allowed to fail". If you're absolutely reliant on Node.js 0.10, [check the latest build](https://travis-ci.org/springernature/truffler) to verify that it's still working.

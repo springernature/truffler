@@ -295,11 +295,11 @@ License
 -------
 
 Truffler is licensed under the [MIT][info-license] license.  
-Copyright &copy; 2015, Nature Publishing Group
+Copyright &copy; 2015, Springer Nature
 
 
 
-[1.x]: https://github.com/nature/truffler/tree/1.x
+[1.x]: https://github.com/springernature/truffler/tree/1.x
 [async]: https://github.com/caolan/async
 [npm]: https://npmjs.org/
 [phantom]: http://phantomjs.org/
@@ -308,13 +308,13 @@ Copyright &copy; 2015, Nature Publishing Group
 [phantom-page]: http://phantomjs.org/api/webpage/
 [phantom-page-settings]: http://phantomjs.org/api/webpage/property/settings.html
 
-[info-dependencies]: https://gemnasium.com/nature/truffler
+[info-dependencies]: https://gemnasium.com/springernature/truffler
 [info-license]: LICENSE
 [info-node]: package.json
 [info-npm]: https://www.npmjs.com/package/truffler
-[info-build]: https://travis-ci.org/nature/truffler
-[shield-dependencies]: https://img.shields.io/gemnasium/nature/truffler.svg
+[info-build]: https://travis-ci.org/springernature/truffler
+[shield-dependencies]: https://img.shields.io/gemnasium/springernature/truffler.svg
 [shield-license]: https://img.shields.io/badge/license-MIT-blue.svg
 [shield-node]: https://img.shields.io/badge/node.js%20support-0.12–5-brightgreen.svg
 [shield-npm]: https://img.shields.io/npm/v/truffler.svg
-[shield-build]: https://img.shields.io/travis/nature/truffler/master.svg
+[shield-build]: https://img.shields.io/travis/springernature/truffler/master.svg
