@@ -1,6 +1,11 @@
 
 # History
 
+## 2.1.1 (2016-02-09)
+
+  * Update repository references to springernature
+  * Update the license
+
 ## 2.1.0 (2015-12-14)
 
   * Add the ability to specify the path to the PhantomJS binary
