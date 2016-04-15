@@ -1,6 +1,11 @@
 
 # Changelog
 
+## 2.2.0 (2016-04-15)
+
+  * Update dependencies
+    * node-phantom-simple: `~2.0` to `~2.2`
+
 ## 2.1.1 (2016-02-09)
 
   * Update repository references to springernature
