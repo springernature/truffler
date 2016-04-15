@@ -27,7 +27,7 @@
 		"freeport": "~1.0",
 		"hasbin": "~1.1",
 		"node.extend": "~1.1",
-		"node-phantom-simple": "~2.0"
+		"node-phantom-simple": "~2.2"
 	},
 	"devDependencies": {
 		"istanbul": "~0.4",
