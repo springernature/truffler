@@ -32,7 +32,7 @@ Table Of Contents
 - [Options](#options)
 - [Examples](#examples)
 - [Contributing](#contributing)
-- [Migrating](#migrating)
+- [Support and Migration](#support-and-migration)
 - [License](#license)
 
 
@@ -283,12 +283,19 @@ make ci
 ```
 
 
-Migrating
----------
+Support and Migration
+---------------------
 
-If you're using Truffler 1.0 and wish to migrate to 2.0, we've written a [Migration Guide](MIGRATION.md) to help with that.
+Truffler major versions are normally supported for 6 months after their last minor release. This means that patch-level changes will be added and bugs will be fixed. The table below outlines the end-of-support dates for major versions, and the last minor release for that version.
 
-It's recommended that you migrate to 2.0 as soon as possible, but [1.0 is still available on the 1.x branch][1.x]. We'll be providing support for 1.0 for the forseeable future, but there will be no new feature development.
+We also maintain a [migration guide](MIGRATION.md) to help you migrate.
+
+| :grey_question: | Major Version | Last Minor Release | Node.js Versions | Support End Date |
+| :-------------- | :------------ | :----------------- | :--------------- | :--------------- |
+| :heart:         | 2             | N/A                | 0.12+            | N/A              |
+| :hourglass:     | 1             | 1.0                | 0.10–4           | 2016-10-16       |
+
+If you're opening issues related to these, please mention the version that the issue relates to.
 
 
 License
