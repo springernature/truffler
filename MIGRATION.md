@@ -5,6 +5,12 @@ Migration Guide
 Truffler's API changes between major versions. This is a guide to help you make the switch when this happens.
 
 
+Table Of Contents
+-----------------
+
+- [Migrating from 1.0 to 2.0](#migrating-from-10-to-20)
+
+
 Migrating From 1.0 To 2.0
 -------------------------
 
