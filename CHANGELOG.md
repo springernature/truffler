@@ -1,6 +1,10 @@
 
 # Changelog
 
+## 2.2.1 (2016-05-05)
+
+  * Support Node.js 6.x
+
 ## 2.2.0 (2016-04-15)
 
   * Update dependencies
