@@ -282,7 +282,8 @@ describe('lib/truffler', function() {
 						viewport: {
 							width: 1234,
 							height: 5678
-						}
+						},
+						reason: 'foo bar'
 					},
 					phantom: {
 						port: 1234,
@@ -415,9 +416,10 @@ describe('lib/truffler', function() {
 
 			it('should callback with an error if the PhantomJS page status is not "success"', function(done) {
 				phantom.mockPage.open.yieldsAsync(null, 'fail');
+				phantom.mockPage.onResourceError({errorString: 'error reason'});
 				instance._run(url, options, function(error) {
 					assert.instanceOf(error, Error);
-					assert.strictEqual(error.message, 'Page "' + url + '" could not be opened');
+					assert.strictEqual(error.message, 'Error opening url "' + url + '" : error reason');
 					done();
 				});
 			});
