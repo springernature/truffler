@@ -282,8 +282,7 @@ describe('lib/truffler', function() {
 						viewport: {
 							width: 1234,
 							height: 5678
-						},
-						reason: 'foo bar'
+						}
 					},
 					phantom: {
 						port: 1234,
