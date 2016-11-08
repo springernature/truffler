@@ -1,6 +1,10 @@
 
 # Changelog
 
+## 2.3.0 (2016-11-08)
+
+  * Amends page.open to provide greater detail of errors
+
 ## 2.2.1 (2016-05-05)
 
   * Support Node.js 6.x
