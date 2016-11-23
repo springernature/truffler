@@ -55,10 +55,10 @@ Require in Truffler:
 var truffler = require('truffler');
 ```
 
-Create a test runner by initialising Truffler with a test function. This test function has access to a PhantomJS [browser][phantom-browser] and [page][phantom-page] instance. The test function must accept a third argument which is a callback:
+Create a test runner by initialising Truffler with a test function. This test function has access to a PhantomJS [browser][phantom-browser] and [page][phantom-page] instance, as well as a copy of all the passed in options. The test function must accept a third argument which is a callback:
 
 ```js
-var test = truffler(function(browser, page, done) {
+var test = truffler(function(browser, page, options, done) {
     // ... perform testing here ...
     done(error, results);
 });
@@ -71,7 +71,7 @@ You can also instantiate Truffler with some [default options](#options) if you w
 ```js
 var test = truffler({
     // ... options go here ...
-}, function(browser, page, done) {
+}, function(browser, page, options, done) {
     // ... perform testing here ...
 });
 ```
@@ -87,7 +87,7 @@ test.run('http://www.nature.com/', function(error, results) {
 The `error` and `results` parameters contain errors and results from the PhantomJS run against your page. The results can be any object you like. Here's an example test function which returns the page title if it has one, or errors if not.
 
 ```js
-var test = truffler(function(browser, page, done) {
+var test = truffler(function(browser, page, options, done) {
     page.evaluate(
         function() {
             return document.title;

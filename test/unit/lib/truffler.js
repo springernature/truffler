@@ -423,10 +423,10 @@ describe('lib/truffler', function() {
 				});
 			});
 
-			it('should run the instance test function, passing in the PhantomJS browser and page', function() {
+			it('should run the instance test function, passing in the PhantomJS browser, page, and options', function() {
 				assert.calledOnce(instance.testFunction);
-				assert.calledWith(instance.testFunction, phantom.mockBrowser, phantom.mockPage);
-				assert.isFunction(instance.testFunction.firstCall.args[2]);
+				assert.calledWith(instance.testFunction, phantom.mockBrowser, phantom.mockPage, options);
+				assert.isFunction(instance.testFunction.firstCall.args[3]);
 			});
 
 			it('should log that the test function is being run', function() {
