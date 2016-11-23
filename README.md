@@ -292,8 +292,9 @@ We also maintain a [migration guide](MIGRATION.md) to help you migrate.
 
 | :grey_question: | Major Version | Last Minor Release | Node.js Versions | Support End Date |
 | :-------------- | :------------ | :----------------- | :--------------- | :--------------- |
-| :heart:         | 2             | N/A                | 0.12+            | N/A              |
-| :hourglass:     | 1             | 1.0                | 0.10–4           | 2016-10-16       |
+| :heart:         | 3             | N/A                | 4+               | N/A              |
+| :hourglass:     | 2             | 2.3                | 0.12+            | 2017-04-23       |
+| :skull:         | 1             | 1.0                | 0.10–4           | 2016-10-16       |
 
 If you're opening issues related to these, please mention the version that the issue relates to.
 
