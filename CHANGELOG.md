@@ -1,6 +1,12 @@
 
 # Changelog
 
+## 3.0.0 (2016-11-23)
+
+  * Pass per-test options through to the test function
+  * Drop support for Node.js 0.10 and 0.12
+  * See the [migration guide](https://github.com/springernature/truffler/blob/master/MIGRATION.md#migrating-from-20-to-30) for details
+
 ## 2.3.0 (2016-11-08)
 
   * Amends page.open to provide greater detail of errors
