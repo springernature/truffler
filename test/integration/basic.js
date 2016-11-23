@@ -11,7 +11,7 @@ describe('Truffler Basic Reporting', function() {
 	before(function(done) {
 
 		// Create a Truffler instance
-		var test = truffler(function(browser, page, completeTest) {
+		var test = truffler(function(browser, page, options, completeTest) {
 			page.evaluate(function() {
 				/* global document */
 				return {

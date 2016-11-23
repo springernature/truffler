@@ -14,7 +14,7 @@ var test = truffler({
 	}
 
 // The test function which will get run on URLs
-}, function(browser, page, done) {
+}, function(browser, page, options, done) {
 
 	// Evaluate the page, extract the title, and callback
 	page.evaluate(
