@@ -8,7 +8,36 @@ Truffler's API changes between major versions. This is a guide to help you make 
 Table Of Contents
 -----------------
 
+- [Migrating from 2.0 to 3.0](#migrating-from-20-to-30)
 - [Migrating from 1.0 to 2.0](#migrating-from-10-to-20)
+
+
+Migrating from 2.0 to 3.0
+-------------------------
+
+### Test function arguments
+
+The test function passed into Truffler now accepts additional arguments – the defaulted options are now passed into it. This allows option overrides outside of Truffler itself.
+
+```js
+var test = truffler(function(browser, page, done) {
+    // the test function to run in PhantomJS
+    done();
+});
+```
+
+becomes:
+
+```js
+var test = truffler(function(browser, page, options, done) {
+    // the test function to run in PhantomJS
+    done();
+});
+```
+
+### Node.js Support
+
+Node.js 0.10 and 0.12 are no longer supported. We'll be using newer ES6 features in upcoming releases which will not work in this older Node.js version.
 
 
 Migrating From 1.0 To 2.0
