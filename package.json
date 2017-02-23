@@ -23,18 +23,18 @@
 		"node": ">=4"
 	},
 	"dependencies": {
-		"async": "~1.4",
+		"async": "~2.1",
 		"freeport": "~1.0",
-		"hasbin": "~1.1",
+		"hasbin": "~1.2",
 		"node.extend": "~1.1",
 		"node-phantom-simple": "~2.2"
 	},
 	"devDependencies": {
 		"istanbul": "~0.4",
-		"jscs": "^2",
+		"jscs": "^3",
 		"jshint": "^2",
-		"mocha": "^2",
-		"mockery": "~1.4",
+		"mocha": "^3",
+		"mockery": "^2",
 		"proclaim": "^3",
 		"sinon": "^1"
 	},
