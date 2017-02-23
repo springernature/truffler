@@ -1,20 +1,17 @@
 'use strict';
 
 var truffler = require('../..');
-
-// Create a test instance with some default options
-var test = truffler({
-
+var options = {
 	// Log what's happening to the console
 	log: {
 		debug: console.log.bind(console),
 		error: console.error.bind(console),
 		info: console.log.bind(console)
 	}
+};
 
-// The test function which will get run on URLs
-}, function(browser, page, options, done) {
-
+// Create a test instance with some default options
+var test = truffler(options, function(browser, page, options, done) {
 	// Evaluate the page, extract the title, and callback
 	page.evaluate(
 		function() {
@@ -25,7 +22,6 @@ var test = truffler({
 			done(null, result);
 		}
 	);
-
 });
 
 // Test http://nature.com/
