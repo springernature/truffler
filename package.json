@@ -41,6 +41,6 @@
 
 	"main": "./lib/truffler.js",
 	"scripts": {
-		"test": "make ci"
+		"test": "snyk test && make ci"
 	}
 }
