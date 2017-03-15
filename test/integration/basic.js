@@ -5,14 +5,13 @@
 var assert = require('proclaim');
 var truffler = require('../..');
 
-describe('Truffler Basic Reporting', function() {
+describe('Truffler Basic Reporting', function () {
 	var testResult;
 
-	before(function(done) {
-
+	before(function (done) {
 		// Create a Truffler instance
-		var test = truffler(function(browser, page, options, completeTest) {
-			page.evaluate(function() {
+		var test = truffler(function (browser, page, options, completeTest) {
+			page.evaluate(function () {
 				/* global document */
 				return {
 					title: document.title,
@@ -22,19 +21,17 @@ describe('Truffler Basic Reporting', function() {
 		});
 
 		// Run a test
-		test.run(this.website.url + '/basic', function(error, result) {
+		test.run(this.website.url + '/basic', function (error, result) {
 			testResult = result;
 			done(error);
 		});
-
 	});
 
-	it('should report the title of a requested page', function() {
+	it('should report the title of a requested page', function () {
 		assert.strictEqual(testResult.title, 'Basic Page');
 	});
 
-	it('should report the body text of the requested page', function() {
+	it('should report the body text of the requested page', function () {
 		assert.strictEqual(testResult.body.trim(), 'Hello World!');
 	});
-
 });

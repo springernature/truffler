@@ -5,13 +5,12 @@
 var assert = require('proclaim');
 var truffler = require('../..');
 
-describe('Truffler Timeout', function() {
+describe('Truffler Timeout', function () {
 	var testError;
 
-	before(function(done) {
-
+	before(function (done) {
 		// Create a Truffler instance
-		var test = truffler(function(browser, page, options, completeTest) {
+		var test = truffler(function (browser, page, options, completeTest) {
 			completeTest();
 		});
 
@@ -19,16 +18,14 @@ describe('Truffler Timeout', function() {
 		var options = {
 			timeout: 100
 		};
-		test.run(this.website.url + '/timeout', options, function(error) {
+		test.run(this.website.url + '/timeout', options, function (error) {
 			testError = error;
 			done();
 		});
-
 	});
 
-	it('should report a timeout error', function() {
+	it('should report a timeout error', function () {
 		assert.instanceOf(testError, Error);
 		assert.strictEqual(testError.message, 'Truffler timed out (100ms)');
 	});
-
 });

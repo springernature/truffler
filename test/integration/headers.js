@@ -5,17 +5,16 @@
 var assert = require('proclaim');
 var truffler = require('../..');
 
-describe('Truffler Custom Headers', function() {
+describe('Truffler Custom Headers', function () {
 	var testResult;
 
-	before(function(done) {
-
+	before(function (done) {
 		// Create a Truffler instance
-		var test = truffler(function(browser, page, options, completeTest) {
-			page.evaluate(function() {
+		var test = truffler(function (browser, page, options, completeTest) {
+			page.evaluate(function () {
 				/* global document */
 				var headers = {};
-				document.body.textContent.split(/\n+/).forEach(function(headerString) {
+				document.body.textContent.split(/\n+/).forEach(function (headerString) {
 					var headerParts = headerString.split(':');
 					var header = headerParts.shift();
 					headers[header] = headerParts.join(':').trim();
@@ -35,17 +34,15 @@ describe('Truffler Custom Headers', function() {
 				}
 			}
 		};
-		test.run(this.website.url + '/headers', options, function(error, result) {
+		test.run(this.website.url + '/headers', options, function (error, result) {
 			testResult = result;
 			done(error);
 		});
-
 	});
 
-	it('send the expected headers to the requested page', function() {
+	it('send the expected headers to the requested page', function () {
 		assert.isObject(testResult.headers);
 		assert.strictEqual(testResult.headers.foo, 'bar');
 		assert.strictEqual(testResult.headers.cookie, 'foo=bar');
 	});
-
 });

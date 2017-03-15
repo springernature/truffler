@@ -5,14 +5,13 @@
 var assert = require('proclaim');
 var truffler = require('../..');
 
-describe('Truffler Custom Viewport', function() {
+describe('Truffler Custom Viewport', function () {
 	var testResult;
 
-	before(function(done) {
-
+	before(function (done) {
 		// Create a Truffler instance
-		var test = truffler(function(browser, page, options, completeTest) {
-			page.evaluate(function() {
+		var test = truffler(function (browser, page, options, completeTest) {
+			page.evaluate(function () {
 				/* global window */
 				return {
 					width: window.innerWidth,
@@ -30,16 +29,14 @@ describe('Truffler Custom Viewport', function() {
 				}
 			}
 		};
-		test.run(this.website.url + '/basic', options, function(error, result) {
+		test.run(this.website.url + '/basic', options, function (error, result) {
 			testResult = result;
 			done(error);
 		});
-
 	});
 
-	it('create a page with the expected viewport size', function() {
+	it('create a page with the expected viewport size', function () {
 		assert.strictEqual(testResult.width, 1234);
 		assert.strictEqual(testResult.height, 5678);
 	});
-
 });
