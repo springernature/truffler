@@ -2,6 +2,7 @@
 
 var async = require('async');
 var truffler = require('../..');
+
 var options = {
 	// Log what's happening to the console
 	log: {
@@ -12,14 +13,14 @@ var options = {
 };
 
 // Create a test instance with some default options
-var test = truffler(options, function(browser, page, options, done) {
+var test = truffler(options, function (browser, page, options, done) {
 	// Evaluate the page, extract the title, and callback
 	page.evaluate(
-		function() {
+		function () {
 			/* global document */
 			return document.title;
 		},
-		function(error, result) {
+		function (error, result) {
 			done(null, result);
 		}
 	);
@@ -33,7 +34,7 @@ async.series({
 
 	// Test the Nature Plants home page
 	plants: test.run.bind(test, 'http://nature.com/nplants/')
-}, function(error, results) {
+}, function (error, results) {
 	if (error) {
 		return console.error(error.message);
 	}

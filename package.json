@@ -31,16 +31,18 @@
   },
   "devDependencies": {
     "istanbul": "^0.4.5",
-    "jscs": "^3.0.7",
-    "jshint": "^2.9.4",
     "mocha": "^3.2.0",
     "mockery": "^2.0.0",
     "proclaim": "^3.4.4",
-    "sinon": "^1.17.7"
+    "sinon": "^1.17.7",
+    "xo": "^0.17.1"
   },
 
   "main": "./lib/truffler.js",
   "scripts": {
     "test": "make ci"
+  },
+  "xo": {
+    "envs": ["mocha"]
   }
 }
