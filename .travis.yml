@@ -4,14 +4,15 @@ language: node_js
 matrix:
   include:
 
-    # Run linter once
+    # Run linter only, just once
     - node_js: '6'
       env: LINT=true
 
     # Run tests
-    - node_js: '4'
-    - node_js: '5'
+    - node_js: 'node'
     - node_js: '6'
+    - node_js: '5'
+    - node_js: '4'
 
 # Restrict builds on branches
 branches:
