@@ -1,6 +1,13 @@
 
 # Changelog
 
+## 3.0.1 (2016-11-23)
+
+  * Update dependencies
+  * Replace jshint with xo
+  * Update the test matrix
+  * Package.json cleanup
+
 ## 3.0.0 (2016-11-23)
 
   * Pass per-test options through to the test function
