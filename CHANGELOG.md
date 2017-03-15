@@ -1,7 +1,7 @@
 
 # Changelog
 
-## 3.0.1 (2016-11-23)
+## 3.0.1 (2017-03-15)
 
   * Update dependencies
   * Replace jshint with xo
