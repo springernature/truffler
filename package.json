@@ -1,46 +1,46 @@
 {
-	"name": "truffler",
-	"version": "3.0.0",
+  "name": "truffler",
+  "version": "3.0.0",
 
-	"description": "Access web pages programmatically with PhantomJS, for running tests or scraping information",
-	"keywords": [ "dom", "html", "phantomjs", "test" ],
+  "description": "Access web pages programmatically with PhantomJS, for running tests or scraping information",
+  "keywords": [ "dom", "html", "phantomjs", "test" ],
 
-	"author": "Springer Nature",
-	"contributors": [
-		"Rowan Manning (http://rowanmanning.com/)",
-		"Whymarrh Whitby (http://whymarrh.com/)"
-	],
+  "author": "Springer Nature",
+  "contributors": [
+    "Rowan Manning (http://rowanmanning.com/)",
+    "Whymarrh Whitby (http://whymarrh.com/)"
+  ],
 
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/springernature/truffler.git"
-	},
-	"homepage": "https://github.com/springernature/truffler",
-	"bugs": "https://github.com/springernature/truffler/issues",
-	"license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/springernature/truffler.git"
+  },
+  "homepage": "https://github.com/springernature/truffler",
+  "bugs": "https://github.com/springernature/truffler/issues",
+  "license": "MIT",
 
-	"engines": {
-		"node": ">=4"
-	},
-	"dependencies": {
-		"async": "~2.1",
-		"freeport": "~1.0",
-		"hasbin": "~1.2",
-		"node.extend": "~1.1",
-		"node-phantom-simple": "~2.2"
-	},
-	"devDependencies": {
-		"istanbul": "~0.4",
-		"jscs": "^3",
-		"jshint": "^2",
-		"mocha": "^3",
-		"mockery": "^2",
-		"proclaim": "^3",
-		"sinon": "^1"
-	},
+  "engines": {
+    "node": ">=4"
+  },
+  "dependencies": {
+    "async": "~2.1.5",
+    "freeport": "~1.0.5",
+    "hasbin": "~1.2.3",
+    "node.extend": "~1.1.6",
+    "node-phantom-simple": "~2.2.4"
+  },
+  "devDependencies": {
+    "istanbul": "^0.4.5",
+    "jscs": "^3.0.7",
+    "jshint": "^2.9.4",
+    "mocha": "^3.2.0",
+    "mockery": "^2.0.0",
+    "proclaim": "^3.4.4",
+    "sinon": "^1.17.7"
+  },
 
-	"main": "./lib/truffler.js",
-	"scripts": {
-		"test": "make ci"
-	}
+  "main": "./lib/truffler.js",
+  "scripts": {
+    "test": "make ci"
+  }
 }
