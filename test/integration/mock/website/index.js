@@ -21,6 +21,10 @@ function startMockWebsite(done) {
 			response.end(headers.join('\n'));
 		},
 
+		'/method': function (request, response) {
+			response.end(request.method);
+		},
+
 		'/timeout': function (request, response) {
 			setTimeout(function () {
 				response.end('timeout');

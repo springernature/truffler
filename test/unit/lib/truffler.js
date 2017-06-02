@@ -395,8 +395,8 @@ describe('lib/truffler', function () {
 
 			it('should open the given URL in the PhantomJS page', function () {
 				assert.calledOnce(phantom.mockPage.open);
-				assert.calledWith(phantom.mockPage.open, url);
-				assert.isFunction(phantom.mockPage.open.firstCall.args[1]);
+				assert.calledWith(phantom.mockPage.open, url, extend.firstCall.returnValue.page.settings);
+				assert.isFunction(phantom.mockPage.open.firstCall.args[2]);
 			});
 
 			it('should log that the URL is being opened', function () {
