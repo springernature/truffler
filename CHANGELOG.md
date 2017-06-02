@@ -1,6 +1,10 @@
 
 # Changelog
 
+## 3.1.0 (2017-06-02)
+
+  * Allow all page settings, including ability to specify a request method
+
 ## 3.0.1 (2017-03-15)
 
   * Update dependencies
